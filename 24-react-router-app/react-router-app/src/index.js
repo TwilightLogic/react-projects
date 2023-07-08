@@ -41,6 +41,15 @@ const router = createBrowserRouter([
             post,
           };
         },
+        // 这个时候用`action`来接收ViewPostPage页面submit的info
+        action: async ({ request }) => {
+          const form = await request.formData();
+
+          return {
+            id: 1000,
+            body: form.get("comment"),
+          };
+        },
       },
     ],
   },
