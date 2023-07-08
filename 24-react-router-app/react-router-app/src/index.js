@@ -4,9 +4,10 @@ import "./index.css";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import Root from "./pages/Root";
+import PostPage from "./pages/PostPage";
+import ViewPostPage from "./pages/ViewPostPage";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import PostPage from "./pages/PostPage";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,21 @@ const router = createBrowserRouter([
           );
           const posts = await response.json();
           return { posts };
+        },
+      },
+      // `/posts/:id`表示`id`是个动态的值，下面的loader会拿到
+      {
+        path: "/posts/:id",
+        element: <ViewPostPage />,
+        loader: async ({ params }) => {
+          const response = await fetch(
+            `https://jsonplaceholder.typicode.com/posts/${params.id}`
+          );
+          const post = await response.json();
+          return {
+            id: params.id,
+            post,
+          };
         },
       },
     ],
